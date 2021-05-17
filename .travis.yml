@@ -1,0 +1,24 @@
+os: linux
+dist: focal
+language: generic
+services:
+  - docker
+
+env:
+  global:
+    - DOCKER_ORG=zencash
+    - IMAGE_NAME=sc-ci-base
+    - GOSU_VERSION=1.12
+    - RUST_CROSS_TARGETS=x86_64-pc-windows-gnu
+    - JDK_JVM=hotspot
+    - MVN_VERSION=3.8.1
+  jobs:
+    - BASE_IMAGE=ubuntu:bionic FLAVORS=rust-stable,jdk-8,jdk-11,jdk-16 COMBINE=rust,jdk
+    - BASE_IMAGE=ubuntu:bionic FLAVORS=rust-nightly,jdk-8,jdk-11,jdk-16 COMBINE=rust,jdk
+    - BASE_IMAGE=ubuntu:focal FLAVORS=rust-stable,jdk-8,jdk-11,jdk-16 COMBINE=rust,jdk
+    - BASE_IMAGE=ubuntu:focal FLAVORS=rust-nightly,jdk-8,jdk-11,jdk-16 COMBINE=rust,jdk
+# disabled due to https://bugs.launchpad.net/ubuntu/+source/glibc/+bug/1916485
+#    - BASE_IMAGE=ubuntu:hirsute FLAVORS=rust-stable,jdk-8,jdk-11,jdk-16 COMBINE=rust,jdk
+#    - BASE_IMAGE=ubuntu:hirsute FLAVORS=rust-nightly,jdk-8,jdk-11,jdk-16 COMBINE=rust,jdk
+
+script: ci/build.sh
