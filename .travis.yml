@@ -13,12 +13,14 @@ env:
     - JDK_JVM=hotspot
     - MVN_VERSION=3.8.1
   jobs:
-    - BASE_IMAGE=ubuntu:bionic FLAVORS=rust-stable,jdk-8,jdk-11,jdk-16 COMBINE=rust,jdk
-    - BASE_IMAGE=ubuntu:bionic FLAVORS=rust-nightly,jdk-8,jdk-11,jdk-16 COMBINE=rust,jdk
-    - BASE_IMAGE=ubuntu:focal FLAVORS=rust-stable,jdk-8,jdk-11,jdk-16 COMBINE=rust,jdk
-    - BASE_IMAGE=ubuntu:focal FLAVORS=rust-nightly,jdk-8,jdk-11,jdk-16 COMBINE=rust,jdk
+    - BASE_IMAGE=ubuntu:bionic FLAVORS=rust-stable COMBINE="rust-stable;jdk-8,jdk-11,jdk-16"
+    - BASE_IMAGE=ubuntu:bionic FLAVORS=rust-nightly COMBINE="rust-nightly;jdk-8,jdk-11,jdk-16"
+    - BASE_IMAGE=ubuntu:bionic FLAVORS=jdk-8,jdk-11,jdk-16
+    - BASE_IMAGE=ubuntu:focal FLAVORS=rust-stable COMBINE="rust-stable;jdk-8,jdk-11,jdk-16"
+    - BASE_IMAGE=ubuntu:focal FLAVORS=rust-nightly COMBINE="rust-nightly;jdk-8,jdk-11,jdk-16"
+    - BASE_IMAGE=ubuntu:focal FLAVORS=jdk-8,jdk-11,jdk-16
 # disabled due to https://bugs.launchpad.net/ubuntu/+source/glibc/+bug/1916485
-#    - BASE_IMAGE=ubuntu:hirsute FLAVORS=rust-stable,jdk-8,jdk-11,jdk-16 COMBINE=rust,jdk
-#    - BASE_IMAGE=ubuntu:hirsute FLAVORS=rust-nightly,jdk-8,jdk-11,jdk-16 COMBINE=rust,jdk
-
+#    - BASE_IMAGE=ubuntu:hirsute FLAVORS=rust-stable COMBINE="rust-stable;jdk-8,jdk-11,jdk-16"
+#    - BASE_IMAGE=ubuntu:hirsute FLAVORS=rust-nightly COMBINE="rust-nightly;jdk-8,jdk-11,jdk-16"
+#    - BASE_IMAGE=ubuntu:hirsute FLAVORS=jdk-8,jdk-11,jdk-16
 script: ci/build.sh

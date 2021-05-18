@@ -30,33 +30,46 @@ get_work () {
     BUILD+=( "${build_args}${image_tag}${dockerfile}" )
   done
   # add combined flavor images to BUILD
+  local element=""
   if [ -n "${COMBINE:-}" ]; then
     local first_img=()
     local second_img=()
-    local element=""
     local first=""
     local second=""
-    # array of rust-stable/nightly
-    mapfile -t first_img < <(tr " " "\n" <<< "${BUILD[@]}" | grep "$(cut -d, -f1 <<< "$COMBINE")" | cut -d";" -f2 | cut -d_ -f2)
-    # array of jdk-x
-    mapfile -t second_img < <(tr " " "\n" <<< "${BUILD[@]}" | grep "$(cut -d, -f2 <<< "$COMBINE")" | cut -d";" -f2 | cut -d_ -f2)
+    # base images
+    mapfile -t first_img < <(cut -d";" -f1 <<< "$COMBINE" | tr "," "\n")
+    # second level images to build on top of base images
+    mapfile -t second_img < <(cut -d";" -f2 <<< "$COMBINE" | tr "," "\n")
     for element in "${BUILD[@]}"; do
-      for second in "${second_img[@]}"; do
-        if grep -q "$second" <<< "$element"; then
-          for first in "${first_img[@]}"; do
-            local append=""
-            # replace flavor with ${first}_${second}
-            append="${element//${second}/${first}_${second}}"
-            # replace BASE_IMAGE with ${DOCKER_ORG}\/${IMAGE_NAME}:${CODENAME}_${first}_latest
-            append="${append//${BASE_IMAGE}/${DOCKER_ORG}\/${IMAGE_NAME}:${CODENAME}_${first}_latest}"
-            BUILD+=( "$append" )
+      for first in "${first_img[@]}"; do
+        if grep -q "$first" <<< "$element"; then
+          for second in "${second_img[@]}"; do
+            build_args=""
+            image_tag=""
+            dockerfile=""
+            build_args+="ARG_GOSU_VERSION=${GOSU_VERSION},"
+            if grep -q rust <<< "$second"; then
+              build_args+="FROM_IMAGE=${DOCKER_ORG}/${IMAGE_NAME}:${CODENAME}_${first}_latest,"
+              build_args+="ARG_RUST_TOOLCHAIN=$(cut -d- -f2 <<< "$second"),"
+              build_args+="ARG_RUST_CROSS_TARGETS=${RUST_CROSS_TARGETS};"
+              image_tag="${CODENAME}_${first}_${second}_latest;"
+              dockerfile="./dockerfiles/${DISTRIBUTION}/Dockerfile_rust"
+            fi
+            if grep -q jdk <<< "$second"; then
+              build_args+="FROM_IMAGE=${DOCKER_ORG}/${IMAGE_NAME}:${CODENAME}_${first}_latest,"
+              build_args+="ARG_JDK_VERSION=$(cut -d- -f2 <<< "$second"),"
+              build_args+="ARG_JDK_JVM=${JDK_JVM},"
+              build_args+="ARG_MVN_VERSION=${MVN_VERSION};"
+              image_tag="${CODENAME}_${first}_${second}_latest;"
+              dockerfile="./dockerfiles/${DISTRIBUTION}/Dockerfile_jdk"
+            fi
+            BUILD+=( "${build_args}${image_tag}${dockerfile}" )
           done
         fi
       done
     done
   fi
-  # for each element in BUILD add to TAG where we replace '_latest' with '_$DATE'
-  local element=""
+  # for each element in BUILD add to TAGS where we replace '_latest' with '_$DATE'
   echo "Images to build:"
   for element in "${BUILD[@]}"; do
     TAGS+=( "${element//_latest/_$DATE}" )
@@ -83,9 +96,9 @@ build_images () {
     done
     tag="${DOCKER_ORG}/${IMAGE_NAME}:$(cut -d";" -f2 <<< "$image")"
     dockerfile="$(cut -d";" -f3 <<< "$image")"
-    echo "Running docker build $args -t $tag -f $dockerfile"
-    # shellcheck  disable=SC2086
-    docker build $args -t "$tag" -f "$dockerfile" .
+    echo "Running docker build$args -t $tag -f $dockerfile ."
+    # shellcheck disable=SC2086
+    docker build$args -t "$tag" -f "$dockerfile" .
   done
 }
 
