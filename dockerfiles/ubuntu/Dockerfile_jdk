@@ -13,7 +13,9 @@ ARG ARG_MVN_VERSION
 ENV GOSU_VERSION=${ARG_GOSU_VERSION:-1.12} \
     JDK_VERSION=${ARG_JDK_VERSION:-11} \
     JDK_JVM=${ARG_JDK_JVM:-hotspot} \
-    MVN_VERSION=${ARG_MVN_VERSION:-3.8.1}
+    MVN_VERSION=${ARG_MVN_VERSION:-3.8.1} \
+    PATH="${PATH}:/opt/apache-maven-${ARG_MVN_VERSION:-3.8.1}/bin" \
+    JAVA_HOME=/usr/lib/jvm/adoptopenjdk-${ARG_JDK_VERSION:-11}-${ARG_JDK_JVM:-hotspot}-amd64
 
 MAINTAINER infrastructure@zensystem.io
 
@@ -22,8 +24,8 @@ SHELL ["/bin/bash", "-c"]
 RUN set -euxo pipefail \
     && apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends apt-transport-https apt-utils \
-      build-essential ca-certificates curl dirmngr gcc-mingw-w64-x86-64 gnupg2 pigz wget \
-    && if ! command -v gosu &>> /dev/null; then \
+      ca-certificates curl dirmngr gnupg2 pigz wget \
+    && if ! command -v gosu &> /dev/null; then \
       dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')" \
       && wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch" \
       && wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch.asc" \
@@ -62,8 +64,4 @@ RUN set -euxo pipefail \
     && apt-get -y clean \
     && apt-get -y autoclean \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*.deb /tmp/* \
-    && export JAVA_HOME="$(readlink -f "$(which javac)" | sed "s:/bin/javac::")"
-
-ENV PATH="${PATH}:/opt/apache-maven-$MVN_VERSION/bin"
-
-ENV JAVA_HOME=/usr/lib/jvm/adoptopenjdk-$JDK_VERSION-$JDK_JVM-amd64
+    && echo 'PATH="'"$PATH"'"' > /etc/environment

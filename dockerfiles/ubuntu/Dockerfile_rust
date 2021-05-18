@@ -13,7 +13,8 @@ ARG CARGO_HOME=/opt/rust/cargo
 ENV GOSU_VERSION=${ARG_GOSU_VERSION:-1.12} \
     RUST_TOOLCHAIN=${ARG_RUST_TOOLCHAIN:-stable} \
     RUST_CROSS_TARGETS=${ARG_RUST_CROSS_TARGETS:-x86_64-pc-windows-gnu,x86_64-apple-darwin} \
-    RUSTUP_HOME=/opt/rust/rustup
+    RUSTUP_HOME=/opt/rust/rustup \
+    PATH="${PATH}:/opt/rust/cargo/bin"
 
 MAINTAINER infrastructure@zensystem.io
 
@@ -23,7 +24,7 @@ RUN set -euxo pipefail \
     && apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends apt-utils \
       build-essential ca-certificates curl dirmngr gcc-mingw-w64-x86-64 gnupg2 pigz wget \
-    && if ! command -v gosu &>> /dev/null; then \
+    && if ! command -v gosu &> /dev/null; then \
       dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')" \
       && wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch" \
       && wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch.asc" \
@@ -43,7 +44,6 @@ RUN set -euxo pipefail \
       && gosu nobody true; \
     fi \
     && curl https://sh.rustup.rs -sSf | bash -s -- -y --default-toolchain none --profile default --no-modify-path \
-    && export PATH="${PATH}:/opt/rust/cargo/bin" \
     && rustup default $RUST_TOOLCHAIN \
     && for target in $(tr "," "\n" <<< "$RUST_CROSS_TARGETS"); do \
       rustup target add --toolchain $RUST_TOOLCHAIN $target; \
@@ -56,6 +56,5 @@ RUN set -euxo pipefail \
     } | tee -a /{root,etc/skel}/.cargo/config > /dev/null \
     && apt-get -y clean \
     && apt-get -y autoclean \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*.deb /tmp/*
-    
-ENV PATH="${PATH}:/opt/rust/cargo/bin"
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*.deb /tmp/* \
+    && echo 'PATH="'"$PATH"'"' > /etc/environment
