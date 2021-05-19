@@ -29,11 +29,19 @@ zencash/sc-ci-base:{bionic,focal,hirsute}_jdk-{8,11,16}_{$(date +%Y%m%d),latest}
 zencash/sc-ci-base:{bionic,focal,hirsute}_rust-{stable,nightly}_jdk-{8,11,16}_{$(date +%Y%m%d),latest};
 ```
 
-### Available tags (only latest shown)
+### Currently available tags (only latest shown)
 ```
 zencash/sc-ci-base:bionic_jdk-11_latest
 zencash/sc-ci-base:bionic_jdk-16_latest
 zencash/sc-ci-base:bionic_jdk-8_latest
+zencash/sc-ci-base:bionic_rust-1.42.0_jdk-11_latest
+zencash/sc-ci-base:bionic_rust-1.42.0_jdk-16_latest
+zencash/sc-ci-base:bionic_rust-1.42.0_jdk-8_latest
+zencash/sc-ci-base:bionic_rust-1.42.0_latest
+zencash/sc-ci-base:bionic_rust-nightly-2020-04-22_jdk-11_latest
+zencash/sc-ci-base:bionic_rust-nightly-2020-04-22_jdk-16_latest
+zencash/sc-ci-base:bionic_rust-nightly-2020-04-22_jdk-8_latest
+zencash/sc-ci-base:bionic_rust-nightly-2020-04-22_latest
 zencash/sc-ci-base:bionic_rust-nightly_jdk-11_latest
 zencash/sc-ci-base:bionic_rust-nightly_jdk-16_latest
 zencash/sc-ci-base:bionic_rust-nightly_jdk-8_latest
@@ -42,9 +50,14 @@ zencash/sc-ci-base:bionic_rust-stable_jdk-11_latest
 zencash/sc-ci-base:bionic_rust-stable_jdk-16_latest
 zencash/sc-ci-base:bionic_rust-stable_jdk-8_latest
 zencash/sc-ci-base:bionic_rust-stable_latest
-zencash/sc-ci-base:focal_jdk-11_latest
-zencash/sc-ci-base:focal_jdk-16_latest
-zencash/sc-ci-base:focal_jdk-8_latest
+zencash/sc-ci-base:focal_rust-1.42.0_jdk-11_latest
+zencash/sc-ci-base:focal_rust-1.42.0_jdk-16_latest
+zencash/sc-ci-base:focal_rust-1.42.0_jdk-8_latest
+zencash/sc-ci-base:focal_rust-1.42.0_latest
+zencash/sc-ci-base:focal_rust-nightly-2020-04-22_jdk-11_latest
+zencash/sc-ci-base:focal_rust-nightly-2020-04-22_jdk-16_latest
+zencash/sc-ci-base:focal_rust-nightly-2020-04-22_jdk-8_latest
+zencash/sc-ci-base:focal_rust-nightly-2020-04-22_latest
 zencash/sc-ci-base:focal_rust-nightly_jdk-11_latest
 zencash/sc-ci-base:focal_rust-nightly_jdk-16_latest
 zencash/sc-ci-base:focal_rust-nightly_jdk-8_latest
@@ -53,15 +66,4 @@ zencash/sc-ci-base:focal_rust-stable_jdk-11_latest
 zencash/sc-ci-base:focal_rust-stable_jdk-16_latest
 zencash/sc-ci-base:focal_rust-stable_jdk-8_latest
 zencash/sc-ci-base:focal_rust-stable_latest
-zencash/sc-ci-base:hirsute_jdk-11_latest
-zencash/sc-ci-base:hirsute_jdk-16_latest
-zencash/sc-ci-base:hirsute_jdk-8_latest
-zencash/sc-ci-base:hirsute_rust-nightly_jdk-11_latest
-zencash/sc-ci-base:hirsute_rust-nightly_jdk-16_latest
-zencash/sc-ci-base:hirsute_rust-nightly_jdk-8_latest
-zencash/sc-ci-base:hirsute_rust-nightly_latest
-zencash/sc-ci-base:hirsute_rust-stable_jdk-11_latest
-zencash/sc-ci-base:hirsute_rust-stable_jdk-16_latest
-zencash/sc-ci-base:hirsute_rust-stable_jdk-8_latest
-zencash/sc-ci-base:hirsute_rust-stable_latest
 ```
