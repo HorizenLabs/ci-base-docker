@@ -124,9 +124,13 @@ CODENAME="$(cut -d: -f2 <<< "$BASE_IMAGE")"
 BUILD=()
 TAGS=()
 get_work
-echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-build_images
-tag_images
+if [ -z "${SKIP_LOGIN:-}" ]; then
+  echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+fi
+if [ -z "${SKIP_BUILD:-}" ]; then
+  build_images
+  tag_images
+fi
 if [ "${TRAVIS_BRANCH:-x}" = "master" ]; then
   push_images
 fi

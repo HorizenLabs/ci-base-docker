@@ -46,6 +46,10 @@ zencash/sc-ci-base:bionic_rust-nightly-2020-04-22_jdk-11_latest
 zencash/sc-ci-base:bionic_rust-nightly-2020-04-22_jdk-16_latest
 zencash/sc-ci-base:bionic_rust-nightly-2020-04-22_jdk-8_latest
 zencash/sc-ci-base:bionic_rust-nightly-2020-04-22_latest
+zencash/sc-ci-base:bionic_rust-nightly-2021-04-25_jdk-11_latest
+zencash/sc-ci-base:bionic_rust-nightly-2021-04-25_jdk-16_latest
+zencash/sc-ci-base:bionic_rust-nightly-2021-04-25_jdk-8_latest
+zencash/sc-ci-base:bionic_rust-nightly-2021-04-25_latest
 zencash/sc-ci-base:bionic_rust-nightly_jdk-11_latest
 zencash/sc-ci-base:bionic_rust-nightly_jdk-16_latest
 zencash/sc-ci-base:bionic_rust-nightly_jdk-8_latest
@@ -69,6 +73,10 @@ zencash/sc-ci-base:focal_rust-nightly-2020-04-22_jdk-11_latest
 zencash/sc-ci-base:focal_rust-nightly-2020-04-22_jdk-16_latest
 zencash/sc-ci-base:focal_rust-nightly-2020-04-22_jdk-8_latest
 zencash/sc-ci-base:focal_rust-nightly-2020-04-22_latest
+zencash/sc-ci-base:focal_rust-nightly-2021-04-25_jdk-11_latest
+zencash/sc-ci-base:focal_rust-nightly-2021-04-25_jdk-16_latest
+zencash/sc-ci-base:focal_rust-nightly-2021-04-25_jdk-8_latest
+zencash/sc-ci-base:focal_rust-nightly-2021-04-25_latest
 zencash/sc-ci-base:focal_rust-nightly_jdk-11_latest
 zencash/sc-ci-base:focal_rust-nightly_jdk-16_latest
 zencash/sc-ci-base:focal_rust-nightly_jdk-8_latest

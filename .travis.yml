@@ -31,4 +31,4 @@ env:
 #    - BASE_IMAGE=ubuntu:hirsute FLAVORS=rust-stable COMBINE='rust-stable;jdk-8,jdk-11,jdk-16'
 #    - BASE_IMAGE=ubuntu:hirsute FLAVORS=rust-nightly COMBINE='rust-nightly;jdk-8,jdk-11,jdk-16'
 #    - BASE_IMAGE=ubuntu:hirsute FLAVORS=jdk-8,jdk-11,jdk-16
-script: ci/build.sh
+script: ci/script.sh
