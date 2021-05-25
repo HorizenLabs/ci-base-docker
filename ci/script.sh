@@ -15,13 +15,13 @@ get_work () {
     build_args+="FROM_IMAGE=${BASE_IMAGE},"
     build_args+="ARG_GOSU_VERSION=${GOSU_VERSION},"
     if grep -q rust <<< "$flavor"; then
-      build_args+="ARG_RUST_TOOLCHAIN=$(cut -d- -f2 <<< "$flavor"),"
+      build_args+="ARG_RUST_TOOLCHAIN=$(cut -d- -f2- <<< "$flavor"),"
       build_args+="ARG_RUST_CROSS_TARGETS=${RUST_CROSS_TARGETS};"
       image_tag="${CODENAME}_${flavor}_latest;"
       dockerfile="./dockerfiles/${DISTRIBUTION}/Dockerfile_rust"
     fi
     if grep -q jdk <<< "$flavor"; then
-      build_args+="ARG_JDK_VERSION=$(cut -d- -f2 <<< "$flavor"),"
+      build_args+="ARG_JDK_VERSION=$(cut -d- -f2- <<< "$flavor"),"
       build_args+="ARG_JDK_JVM=${JDK_JVM},"
       build_args+="ARG_MVN_VERSION=${MVN_VERSION};"
       image_tag="${CODENAME}_${flavor}_latest;"
@@ -50,14 +50,14 @@ get_work () {
             build_args+="ARG_GOSU_VERSION=${GOSU_VERSION},"
             if grep -q rust <<< "$second"; then
               build_args+="FROM_IMAGE=${DOCKER_ORG}/${IMAGE_NAME}:${CODENAME}_${first}_latest,"
-              build_args+="ARG_RUST_TOOLCHAIN=$(cut -d- -f2 <<< "$second"),"
+              build_args+="ARG_RUST_TOOLCHAIN=$(cut -d- -f2- <<< "$second"),"
               build_args+="ARG_RUST_CROSS_TARGETS=${RUST_CROSS_TARGETS};"
               image_tag="${CODENAME}_${first}_${second}_latest;"
               dockerfile="./dockerfiles/${DISTRIBUTION}/Dockerfile_rust"
             fi
             if grep -q jdk <<< "$second"; then
               build_args+="FROM_IMAGE=${DOCKER_ORG}/${IMAGE_NAME}:${CODENAME}_${first}_latest,"
-              build_args+="ARG_JDK_VERSION=$(cut -d- -f2 <<< "$second"),"
+              build_args+="ARG_JDK_VERSION=$(cut -d- -f2- <<< "$second"),"
               build_args+="ARG_JDK_JVM=${JDK_JVM},"
               build_args+="ARG_MVN_VERSION=${MVN_VERSION};"
               image_tag="${CODENAME}_${first}_${second}_latest;"
