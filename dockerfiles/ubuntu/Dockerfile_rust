@@ -8,9 +8,12 @@ ARG ARG_RUST_TOOLCHAIN
 
 ARG ARG_RUST_CROSS_TARGETS
 
+ARG ARG_CARGO_AUDIT_VERSION
+
 ARG CARGO_HOME=/opt/rust/cargo
 
 ENV GOSU_VERSION=${ARG_GOSU_VERSION:-1.12} \
+    CARGO_AUDIT_VERSION=${ARG_CARGO_AUDIT_VERSION:-0.14.0} \
     RUST_TOOLCHAIN=${ARG_RUST_TOOLCHAIN:-stable} \
     RUST_CROSS_TARGETS=${ARG_RUST_CROSS_TARGETS:-x86_64-pc-windows-gnu,x86_64-apple-darwin} \
     RUSTUP_HOME=/opt/rust/rustup \
@@ -55,7 +58,7 @@ RUN set -euxo pipefail \
       echo 'linker = "x86_64-w64-mingw32-gcc"'; \
       echo 'ar = "x86_64-w64-mingw32-gcc-ar"'; \
     } | tee -a /{root,etc/skel}/.cargo/config > /dev/null \
-    && cargo install cargo-audit \
+    && cargo install --version ${ARG_CARGO_AUDIT_VERSION} cargo-audit \
     && apt-get -y clean \
     && apt-get -y autoclean \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*.deb /tmp/* \
