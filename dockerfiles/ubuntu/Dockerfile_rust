@@ -24,6 +24,7 @@ RUN set -euxo pipefail \
     && apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends apt-utils \
       build-essential ca-certificates curl dirmngr gcc-mingw-w64-x86-64 gnupg2 pigz wget \
+      libssl-dev pkg-config \
     && if ! command -v gosu &> /dev/null; then \
       dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')" \
       && wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch" \
@@ -54,6 +55,7 @@ RUN set -euxo pipefail \
       echo 'linker = "x86_64-w64-mingw32-gcc"'; \
       echo 'ar = "x86_64-w64-mingw32-gcc-ar"'; \
     } | tee -a /{root,etc/skel}/.cargo/config > /dev/null \
+    && cargo install cargo-audit
     && apt-get -y clean \
     && apt-get -y autoclean \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*.deb /tmp/* \
