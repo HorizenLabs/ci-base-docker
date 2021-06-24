@@ -55,7 +55,7 @@ RUN set -euxo pipefail \
       echo 'linker = "x86_64-w64-mingw32-gcc"'; \
       echo 'ar = "x86_64-w64-mingw32-gcc-ar"'; \
     } | tee -a /{root,etc/skel}/.cargo/config > /dev/null \
-    && cargo install cargo-audit
+    && cargo install cargo-audit \
     && apt-get -y clean \
     && apt-get -y autoclean \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*.deb /tmp/* \
