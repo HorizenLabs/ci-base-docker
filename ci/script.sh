@@ -14,6 +14,7 @@ get_work () {
     dockerfile=""
     build_args+="FROM_IMAGE=${BASE_IMAGE},"
     build_args+="ARG_GOSU_VERSION=${GOSU_VERSION},"
+    build_args+="ARG_CARGO_AUDIT_VERSION=${CARGO_AUDIT_VERSION},"
     if grep -q rust <<< "$flavor"; then
       build_args+="ARG_RUST_TOOLCHAIN=$(cut -d- -f2- <<< "$flavor"),"
       build_args+="ARG_RUST_CROSS_TARGETS=${RUST_CROSS_TARGETS};"
