@@ -14,9 +14,9 @@ get_work () {
     dockerfile=""
     build_args+="FROM_IMAGE=${BASE_IMAGE},"
     build_args+="ARG_GOSU_VERSION=${GOSU_VERSION},"
-    build_args+="ARG_CARGO_AUDIT_VERSION=${CARGO_AUDIT_VERSION},"
     if grep -q rust <<< "$flavor"; then
       build_args+="ARG_RUST_TOOLCHAIN=$(cut -d- -f2- <<< "$flavor"),"
+      build_args+="ARG_CARGO_AUDIT_VERSION=${CARGO_AUDIT_VERSION},"
       build_args+="ARG_RUST_CROSS_TARGETS=${RUST_CROSS_TARGETS};"
       image_tag="${CODENAME}_${flavor}_latest;"
       dockerfile="./dockerfiles/${DISTRIBUTION}/Dockerfile_rust"
@@ -52,6 +52,7 @@ get_work () {
             if grep -q rust <<< "$second"; then
               build_args+="FROM_IMAGE=${DOCKER_ORG}/${IMAGE_NAME}:${CODENAME}_${first}_latest,"
               build_args+="ARG_RUST_TOOLCHAIN=$(cut -d- -f2- <<< "$second"),"
+              build_args+="ARG_CARGO_AUDIT_VERSION=${CARGO_AUDIT_VERSION},"
               build_args+="ARG_RUST_CROSS_TARGETS=${RUST_CROSS_TARGETS};"
               image_tag="${CODENAME}_${first}_${second}_latest;"
               dockerfile="./dockerfiles/${DISTRIBUTION}/Dockerfile_rust"
