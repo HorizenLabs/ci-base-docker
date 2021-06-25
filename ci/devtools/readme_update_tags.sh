@@ -9,6 +9,7 @@
 [ -n "${MVN_VERSION:-}" ] ||
 [ -n "${BASE_IMAGE:-}" ] ||
 [ -n "${FLAVORS:-}" ] ||
+[ -n "${CARGO_AUDIT_VERSION:-}" ] ||
 [ -n "${COMBINE:-}" ] &&
 exec -c "$0"
 
