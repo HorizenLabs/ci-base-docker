@@ -12,7 +12,7 @@ env:
     - RUST_CROSS_TARGETS=x86_64-pc-windows-gnu
     - JDK_JVM=hotspot
     - CARGO_AUDIT_VERSION=0.14.0
-    - MVN_VERSION=3.8.3
+    - MVN_VERSION=3.8.4
   jobs:
     - BASE_IMAGE=ubuntu:bionic FLAVORS=rust-1.51.0 COMBINE='rust-1.51.0;jdk-8,jdk-11,jdk-16'
     - BASE_IMAGE=ubuntu:bionic FLAVORS=rust-stable COMBINE='rust-stable;jdk-8,jdk-11,jdk-16'
