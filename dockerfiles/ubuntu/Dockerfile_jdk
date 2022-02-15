@@ -38,7 +38,14 @@ RUN set -euxo pipefail \
       && chmod +x /usr/local/bin/gosu \
       && gosu nobody true; \
     fi \
-    && curl -sSf https://packages.adoptium.net/artifactory/api/gpg/key/public | apt-key add - \
+    && export GNUPGHOME="$(mktemp -d)" \
+    && curl -sSf https://packages.adoptium.net/artifactory/api/gpg/key/public > key.asc \
+    && gpg2 --batch --with-subkey-fingerprint --keyid-format LONG key.asc 2> /dev/null | grep -q 3B04D753C9050D9A5D343F39843C48A565F8F04B \
+    && APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=true apt-key add key.asc && rm key.asc \
+    && ( gpgconf --kill dirmngr || true ) \
+    && ( gpgconf --kill gpg-agent || true ) \
+    && rm -rf "$GNUPGHOME" \
+    && unset GNUPGHOME \
     && echo "deb https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION_CODENAME/{print$2}' \
       /etc/os-release) main" > /etc/apt/sources.list.d/adoptium.list \
     && apt-get update \
