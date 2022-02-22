@@ -21,7 +21,7 @@ SHELL ["/bin/bash", "-c"]
 RUN set -euxo pipefail \
     && apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends apt-transport-https apt-utils \
-      ca-certificates curl dirmngr gnupg2 jq pigz wget \
+      ca-certificates curl dirmngr git gnupg2 jq pigz wget \
     && if ! command -v gosu &> /dev/null; then \
       dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')" \
       && wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch" \
