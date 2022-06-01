@@ -10,7 +10,7 @@ env:
     - IMAGE_NAME=sc-ci-base
     - GOSU_VERSION=1.14
     - RUST_CROSS_TARGETS=x86_64-pc-windows-gnu
-    - CARGO_AUDIT_VERSION=0.16.0
+    - CARGO_AUDIT_VERSION=0.17.0
     - MVN_VERSION=3.8.5
   jobs:
     - BASE_IMAGE=ubuntu:bionic FLAVORS=rust-1.51.0 COMBINE='rust-1.51.0;jdk-8,jdk-11,jdk-17'
@@ -23,11 +23,11 @@ env:
     - BASE_IMAGE=ubuntu:focal FLAVORS=rust-nightly COMBINE='rust-nightly;jdk-8,jdk-11,jdk-17'
     - BASE_IMAGE=ubuntu:focal FLAVORS=rust-nightly-2021-04-25 COMBINE='rust-nightly-2021-04-25;jdk-8,jdk-11,jdk-17'
     - BASE_IMAGE=ubuntu:focal FLAVORS=jdk-8,jdk-11,jdk-17
-    - BASE_IMAGE=debian:stretch FLAVORS=rust-1.51.0 COMBINE='rust-1.51.0;jdk-8,jdk-11,jdk-17'
-    - BASE_IMAGE=debian:stretch FLAVORS=rust-stable COMBINE='rust-stable;jdk-8,jdk-11,jdk-17'
-    - BASE_IMAGE=debian:stretch FLAVORS=rust-nightly COMBINE='rust-nightly;jdk-8,jdk-11,jdk-17'
-    - BASE_IMAGE=debian:stretch FLAVORS=rust-nightly-2021-04-25 COMBINE='rust-nightly-2021-04-25;jdk-8,jdk-11,jdk-17'
-    - BASE_IMAGE=debian:stretch FLAVORS=jdk-8,jdk-11,jdk-17
+    - BASE_IMAGE=ubuntu:jammy FLAVORS=rust-1.51.0 COMBINE='rust-1.51.0;jdk-8,jdk-11,jdk-17'
+    - BASE_IMAGE=ubuntu:jammy FLAVORS=rust-stable COMBINE='rust-stable;jdk-8,jdk-11,jdk-17'
+    - BASE_IMAGE=ubuntu:jammy FLAVORS=rust-nightly COMBINE='rust-nightly;jdk-8,jdk-11,jdk-17'
+    - BASE_IMAGE=ubuntu:jammy FLAVORS=rust-nightly-2021-04-25 COMBINE='rust-nightly-2021-04-25;jdk-8,jdk-11,jdk-17'
+    - BASE_IMAGE=ubuntu:jammy FLAVORS=jdk-8,jdk-11,jdk-17
     - BASE_IMAGE=debian:buster FLAVORS=rust-1.51.0 COMBINE='rust-1.51.0;jdk-8,jdk-11,jdk-17'
     - BASE_IMAGE=debian:buster FLAVORS=rust-stable COMBINE='rust-stable;jdk-8,jdk-11,jdk-17'
     - BASE_IMAGE=debian:buster FLAVORS=rust-nightly COMBINE='rust-nightly;jdk-8,jdk-11,jdk-17'
@@ -38,4 +38,9 @@ env:
     - BASE_IMAGE=debian:bullseye FLAVORS=rust-nightly COMBINE='rust-nightly;jdk-8,jdk-11,jdk-17'
     - BASE_IMAGE=debian:bullseye FLAVORS=rust-nightly-2021-04-25 COMBINE='rust-nightly-2021-04-25;jdk-8,jdk-11,jdk-17'
     - BASE_IMAGE=debian:bullseye FLAVORS=jdk-8,jdk-11,jdk-17
+#    - BASE_IMAGE=debian:bookworm FLAVORS=rust-1.51.0 COMBINE='rust-1.51.0;jdk-8,jdk-11,jdk-17'
+#    - BASE_IMAGE=debian:bookworm FLAVORS=rust-stable COMBINE='rust-stable;jdk-8,jdk-11,jdk-17'
+#    - BASE_IMAGE=debian:bookworm FLAVORS=rust-nightly COMBINE='rust-nightly;jdk-8,jdk-11,jdk-17'
+#    - BASE_IMAGE=debian:bookworm FLAVORS=rust-nightly-2021-04-25 COMBINE='rust-nightly-2021-04-25;jdk-8,jdk-11,jdk-17'
+#    - BASE_IMAGE=debian:bookworm FLAVORS=jdk-8,jdk-11,jdk-17
 script: ci/script.sh

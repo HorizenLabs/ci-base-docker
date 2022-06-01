@@ -41,13 +41,15 @@ RUN set -euxo pipefail \
     && export GNUPGHOME="$(mktemp -d)" \
     && curl -sSf https://packages.adoptium.net/artifactory/api/gpg/key/public > key.asc \
     && gpg2 --batch --with-subkey-fingerprint --keyid-format LONG key.asc 2> /dev/null | grep -q 3B04D753C9050D9A5D343F39843C48A565F8F04B \
-    && APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=true apt-key add key.asc && rm key.asc \
+    && mkdir -p /usr/share/keyrings/ \
+    && gpg2 --dearmor --output /usr/share/keyrings/adoptium-archive-keyring.gpg key.asc \
+    && rm key.asc \
     && ( gpgconf --kill dirmngr || true ) \
     && ( gpgconf --kill gpg-agent || true ) \
     && rm -rf "$GNUPGHOME" \
     && unset GNUPGHOME \
-    && echo "deb https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION_CODENAME/{print$2}' \
-      /etc/os-release) main" > /etc/apt/sources.list.d/adoptium.list \
+    && echo "deb [signed-by=/usr/share/keyrings/adoptium-archive-keyring.gpg] https://packages.adoptium.net/artifactory/deb $(grep '^deb' /etc/apt/sources.list | head -n1 | \
+      awk '{print $3}') main" > /etc/apt/sources.list.d/adoptium.list \
     && apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends temurin-$JDK_VERSION-jdk \
     && mvn_archive=apache-maven-$MVN_VERSION-bin.tar.gz \
