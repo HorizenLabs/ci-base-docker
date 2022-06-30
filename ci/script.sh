@@ -23,7 +23,9 @@ get_work () {
     fi
     if grep -q jdk <<< "$flavor"; then
       build_args+="ARG_JDK_VERSION=$(cut -d- -f2- <<< "$flavor"),"
-      build_args+="ARG_MVN_VERSION=${MVN_VERSION};"
+      build_args+="ARG_MVN_VERSION=${MVN_VERSION},"
+      build_args+="ARG_SCALA_VERSION=${SCALA_VERSION},"
+      build_args+="ARG_SCALA_PACKAGE_SHA1=${SCALA_PACKAGE_SHA1};"
       image_tag="${CODENAME}_${flavor}_latest;"
       dockerfile="./dockerfiles/${DISTRIBUTION}/Dockerfile_jdk"
     fi
@@ -59,7 +61,9 @@ get_work () {
             if grep -q jdk <<< "$second"; then
               build_args+="FROM_IMAGE=${DOCKER_ORG}/${IMAGE_NAME}:${CODENAME}_${first}_latest,"
               build_args+="ARG_JDK_VERSION=$(cut -d- -f2- <<< "$second"),"
-              build_args+="ARG_MVN_VERSION=${MVN_VERSION};"
+              build_args+="ARG_MVN_VERSION=${MVN_VERSION},"
+              build_args+="ARG_SCALA_VERSION=${SCALA_VERSION},"
+              build_args+="ARG_SCALA_PACKAGE_SHA1=${SCALA_PACKAGE_SHA1};"
               image_tag="${CODENAME}_${first}_${second}_latest;"
               dockerfile="./dockerfiles/${DISTRIBUTION}/Dockerfile_jdk"
             fi

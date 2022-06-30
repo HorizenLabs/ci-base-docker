@@ -6,6 +6,8 @@
 [ -n "${GOSU_VERSION:-}" ] ||
 [ -n "${RUST_CROSS_TARGETS:-}" ] ||
 [ -n "${MVN_VERSION:-}" ] ||
+[ -n "${SCALA_VERSION:-}" ] ||
+[ -n "${SCALA_PACKAGE_SHA1:-}" ] ||
 [ -n "${BASE_IMAGE:-}" ] ||
 [ -n "${FLAVORS:-}" ] ||
 [ -n "${CARGO_AUDIT_VERSION:-}" ] ||
