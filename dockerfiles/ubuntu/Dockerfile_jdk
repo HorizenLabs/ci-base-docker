@@ -8,15 +8,9 @@ ARG ARG_JDK_VERSION
 
 ARG ARG_MVN_VERSION
 
-ARG ARG_SCALA_VERSION
-
-ARG ARG_SCALA_PACKAGE_SHA1
-
 ENV GOSU_VERSION=${ARG_GOSU_VERSION:-1.14} \
     JDK_VERSION=${ARG_JDK_VERSION:-11} \
     MVN_VERSION=${ARG_MVN_VERSION:-3.8.4} \
-    SCALA_VERSION=${ARG_SCALA_VERSION:-2.12.12} \
-    SCALA_PACKAGE_SHA1=${ARG_SCALA_PACKAGE_SHA1:-ef2c2aec4954a0a7c6a24e8283e16acba35ac78f} \
     PATH="${PATH}:/opt/apache-maven-${ARG_MVN_VERSION:-3.8.4}/bin" \
     JAVA_HOME=/usr/lib/jvm/temurin-${ARG_JDK_VERSION:-11}-jdk-amd64
 
@@ -58,10 +52,6 @@ RUN set -euxo pipefail \
       awk '{print $3}') main" > /etc/apt/sources.list.d/adoptium.list \
     && apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends temurin-$JDK_VERSION-jdk \
-    && scala_file_name=scala-${SCALA_VERSION}.deb \
-    && wget -P /tmp "https://scala-lang.org/files/archive/${scala_file_name}" \
-    && echo "${SCALA_PACKAGE_SHA1} /tmp/${scala_file_name}" | sha1sum --check \
-    && dpkg -i "/tmp/${scala_file_name}" \
     && mvn_archive=apache-maven-$MVN_VERSION-bin.tar.gz \
     && mvn_asc=${mvn_archive}.asc \
     && wget -P /tmp "https://downloads.apache.org/maven/maven-$(cut -d. -f1 <<< "$MVN_VERSION")/$MVN_VERSION/binaries/$mvn_archive" \
