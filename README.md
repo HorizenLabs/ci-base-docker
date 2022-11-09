@@ -16,22 +16,22 @@ Multiple images in various combinations are being built. They can be generalized
 2. OpenJDK, installed from https://adoptium.net/ and Maven for Ubuntu and Debian Linux
 3. A combination of 1. and 2. with both Rust and OpenJDK
 
-- For the Rust images `stable`, `nightly` and `nightly-2021-04-25` based images are built
+- For the Rust images `1.51.0`, `stable`, `nightly` and `nightly-2021-04-25` based images are built
 - For the OpenJDK images JDK versions `8`, `11` and `17` (at the time of writing the latest available LTS JDK versions) are built
 - For the images containing both Rust and OpenJDK combinations of all available versions are built
 
 For all of these images versions from the following base images are being built:
 - `ubuntu:bionic`
 - `ubuntu:focal`
-- `debian:stretch`
+- `ubuntu:jammy`
 - `debian:buster`
 - `debian:bullseye`
 
 The images are tagged using the followig schema:
 ```
-zencash/sc-ci-base:{bionic,focal,stretch,buster,bullseye}_rust-{stable,nightly,nightly-2021-04-25}_{$(date +%Y%m%d),latest};
-zencash/sc-ci-base:{bionic,focal,stretch,buster,bullseye}_jdk-{8,11,17}_{$(date +%Y%m%d),latest};
-zencash/sc-ci-base:{bionic,focal,stretch,buster,bullseye}_rust-{stable,nightly,nightly-2021-04-25}_jdk-{8,11,17}_{$(date +%Y%m%d),latest};
+zencash/sc-ci-base:{bionic,focal,jammy,buster,bullseye}_rust-{1.51.0,stable,nightly,nightly-2021-04-25}_{$(date +%Y%m%d),latest};
+zencash/sc-ci-base:{bionic,focal,jammy,buster,bullseye}_jdk-{8,11,17}_{$(date +%Y%m%d),latest};
+zencash/sc-ci-base:{bionic,focal,jammy,buster,bullseye}_rust-{1.51.0,stable,nightly,nightly-2021-04-25}_jdk-{8,11,17}_{$(date +%Y%m%d),latest};
 ```
 
 ### Currently available tags (only latest shown)
@@ -112,23 +112,23 @@ zencash/sc-ci-base:focal_rust-stable_jdk-11_latest
 zencash/sc-ci-base:focal_rust-stable_jdk-17_latest
 zencash/sc-ci-base:focal_rust-stable_jdk-8_latest
 zencash/sc-ci-base:focal_rust-stable_latest
-zencash/sc-ci-base:stretch_jdk-11_latest
-zencash/sc-ci-base:stretch_jdk-17_latest
-zencash/sc-ci-base:stretch_jdk-8_latest
-zencash/sc-ci-base:stretch_rust-1.51.0_jdk-11_latest
-zencash/sc-ci-base:stretch_rust-1.51.0_jdk-17_latest
-zencash/sc-ci-base:stretch_rust-1.51.0_jdk-8_latest
-zencash/sc-ci-base:stretch_rust-1.51.0_latest
-zencash/sc-ci-base:stretch_rust-nightly-2021-04-25_jdk-11_latest
-zencash/sc-ci-base:stretch_rust-nightly-2021-04-25_jdk-17_latest
-zencash/sc-ci-base:stretch_rust-nightly-2021-04-25_jdk-8_latest
-zencash/sc-ci-base:stretch_rust-nightly-2021-04-25_latest
-zencash/sc-ci-base:stretch_rust-nightly_jdk-11_latest
-zencash/sc-ci-base:stretch_rust-nightly_jdk-17_latest
-zencash/sc-ci-base:stretch_rust-nightly_jdk-8_latest
-zencash/sc-ci-base:stretch_rust-nightly_latest
-zencash/sc-ci-base:stretch_rust-stable_jdk-11_latest
-zencash/sc-ci-base:stretch_rust-stable_jdk-17_latest
-zencash/sc-ci-base:stretch_rust-stable_jdk-8_latest
-zencash/sc-ci-base:stretch_rust-stable_latest
+zencash/sc-ci-base:jammy_jdk-11_latest
+zencash/sc-ci-base:jammy_jdk-17_latest
+zencash/sc-ci-base:jammy_jdk-8_latest
+zencash/sc-ci-base:jammy_rust-1.51.0_jdk-11_latest
+zencash/sc-ci-base:jammy_rust-1.51.0_jdk-17_latest
+zencash/sc-ci-base:jammy_rust-1.51.0_jdk-8_latest
+zencash/sc-ci-base:jammy_rust-1.51.0_latest
+zencash/sc-ci-base:jammy_rust-nightly-2021-04-25_jdk-11_latest
+zencash/sc-ci-base:jammy_rust-nightly-2021-04-25_jdk-17_latest
+zencash/sc-ci-base:jammy_rust-nightly-2021-04-25_jdk-8_latest
+zencash/sc-ci-base:jammy_rust-nightly-2021-04-25_latest
+zencash/sc-ci-base:jammy_rust-nightly_jdk-11_latest
+zencash/sc-ci-base:jammy_rust-nightly_jdk-17_latest
+zencash/sc-ci-base:jammy_rust-nightly_jdk-8_latest
+zencash/sc-ci-base:jammy_rust-nightly_latest
+zencash/sc-ci-base:jammy_rust-stable_jdk-11_latest
+zencash/sc-ci-base:jammy_rust-stable_jdk-17_latest
+zencash/sc-ci-base:jammy_rust-stable_jdk-8_latest
+zencash/sc-ci-base:jammy_rust-stable_latest
 ```
