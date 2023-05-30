@@ -7,7 +7,7 @@
 [ -n "${RUST_CROSS_TARGETS:-}" ] ||
 [ -n "${BASE_IMAGE:-}" ] ||
 [ -n "${FLAVORS:-}" ] ||
-[ -n "${CARGO_AUDIT_VERSION:-}" ] ||
+[ -n "${CARGO_AUDIT_VERSION_OLD_RUST:-}" ] ||
 [ -n "${COMBINE:-}" ] &&
 exec -c "$0"
 
