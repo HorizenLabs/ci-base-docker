@@ -12,7 +12,7 @@ ARG ARG_CARGO_AUDIT_VERSION
 
 ARG CARGO_HOME=/opt/rust/cargo
 
-ENV GOSU_VERSION=${ARG_GOSU_VERSION:-1.14} \
+ENV GOSU_VERSION=${ARG_GOSU_VERSION:-1.16} \
     CARGO_AUDIT_VERSION=${ARG_CARGO_AUDIT_VERSION:-0.16.0} \
     RUST_TOOLCHAIN=${ARG_RUST_TOOLCHAIN:-stable} \
     RUST_CROSS_TARGETS=${ARG_RUST_CROSS_TARGETS:-x86_64-pc-windows-gnu,x86_64-apple-darwin} \
@@ -63,4 +63,5 @@ RUN set -euxo pipefail \
     && apt-get -y clean \
     && apt-get -y autoclean \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*.deb /tmp/* \
-    && echo 'PATH="'"$PATH"'"' > /etc/environment
+    && sed -i '/PATH=/d' /etc/environment \
+    && echo 'PATH="'"$PATH"'"' >> /etc/environment

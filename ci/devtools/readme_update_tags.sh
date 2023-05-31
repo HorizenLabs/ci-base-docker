@@ -5,7 +5,6 @@
 [ -n "${IMAGE_NAME:-}" ] ||
 [ -n "${GOSU_VERSION:-}" ] ||
 [ -n "${RUST_CROSS_TARGETS:-}" ] ||
-[ -n "${MVN_VERSION:-}" ] ||
 [ -n "${BASE_IMAGE:-}" ] ||
 [ -n "${FLAVORS:-}" ] ||
 [ -n "${CARGO_AUDIT_VERSION:-}" ] ||
