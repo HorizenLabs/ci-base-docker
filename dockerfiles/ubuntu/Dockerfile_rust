@@ -8,12 +8,13 @@ ARG ARG_RUST_TOOLCHAIN
 
 ARG ARG_RUST_CROSS_TARGETS
 
-ARG ARG_CARGO_AUDIT_VERSION
+ARG ARG_CARGO_AUDIT_VERSION_OLD_RUST
+
+ARG ARG_CARGO_AUDIT_VERSION_NEW_RUST_MIN=1.63.0
 
 ARG CARGO_HOME=/opt/rust/cargo
 
 ENV GOSU_VERSION=${ARG_GOSU_VERSION:-1.16} \
-    CARGO_AUDIT_VERSION=${ARG_CARGO_AUDIT_VERSION:-0.16.0} \
     RUST_TOOLCHAIN=${ARG_RUST_TOOLCHAIN:-stable} \
     RUST_CROSS_TARGETS=${ARG_RUST_CROSS_TARGETS:-x86_64-pc-windows-gnu,x86_64-apple-darwin} \
     RUSTUP_HOME=/opt/rust/rustup \
@@ -55,13 +56,21 @@ RUN set -euxo pipefail \
       echo 'linker = "x86_64-w64-mingw32-gcc"'; \
       echo 'ar = "x86_64-w64-mingw32-gcc-ar"'; \
     } | tee -a /{root,etc/skel}/.cargo/config > /dev/null \
-    && git clone --single-branch --branch cargo-audit/v${CARGO_AUDIT_VERSION} https://github.com/rustsec/rustsec /root/rustsec \
-    && cd /root/rustsec/cargo-audit \
-    && cargo build --release \
-    && cd && cp -a /root/rustsec/target/release/cargo-audit /opt/rust/cargo/bin/cargo-audit \
-    && rm -rf /root/rustsec \
+    && rust_ver="$(rustc --version | cut -d ' ' -f 2)" \
+    && if dpkg --compare-versions "${rust_ver}" "lt" "${ARG_CARGO_AUDIT_VERSION_NEW_RUST_MIN}"; then \
+      CARGO_AUDIT_VERSION="${ARG_CARGO_AUDIT_VERSION_OLD_RUST}" \
+      && git clone --single-branch --branch cargo-audit/v${CARGO_AUDIT_VERSION} https://github.com/rustsec/rustsec /root/rustsec \
+      && cd /root/rustsec/cargo-audit \
+      && cargo build --release \
+      && cd && cp -a /root/rustsec/target/release/cargo-audit /opt/rust/cargo/bin/cargo-audit \
+      && rm -rf /root/rustsec; \
+    else \
+      cargo install cargo-audit \
+      && CARGO_AUDIT_VERSION="$(/opt/rust/cargo/bin/cargo-audit --version | cut -d ' ' -f2)"; \
+    fi \
     && apt-get -y clean \
     && apt-get -y autoclean \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*.deb /tmp/* \
     && sed -i '/PATH=/d' /etc/environment \
-    && echo 'PATH="'"$PATH"'"' >> /etc/environment
+    && echo 'PATH="'"$PATH"'"' >> /etc/environment \
+    && echo "CARGO_AUDIT_VERSION=${CARGO_AUDIT_VERSION}" >> /etc/environment
