@@ -37,9 +37,9 @@ env:
     - BASE_IMAGE=debian:bullseye FLAVORS=rust-nightly COMBINE='rust-nightly;jdk-8,jdk-11,jdk-17'
     - BASE_IMAGE=debian:bullseye FLAVORS=rust-nightly-2021-04-25 COMBINE='rust-nightly-2021-04-25;jdk-8,jdk-11,jdk-17'
     - BASE_IMAGE=debian:bullseye FLAVORS=jdk-8,jdk-11,jdk-17
-#    - BASE_IMAGE=debian:bookworm FLAVORS=rust-1.51.0 COMBINE='rust-1.51.0;jdk-8,jdk-11,jdk-17'
-#    - BASE_IMAGE=debian:bookworm FLAVORS=rust-stable COMBINE='rust-stable;jdk-8,jdk-11,jdk-17'
-#    - BASE_IMAGE=debian:bookworm FLAVORS=rust-nightly COMBINE='rust-nightly;jdk-8,jdk-11,jdk-17'
-#    - BASE_IMAGE=debian:bookworm FLAVORS=rust-nightly-2021-04-25 COMBINE='rust-nightly-2021-04-25;jdk-8,jdk-11,jdk-17'
-#    - BASE_IMAGE=debian:bookworm FLAVORS=jdk-8,jdk-11,jdk-17
+    - BASE_IMAGE=debian:bookworm FLAVORS=rust-1.51.0 COMBINE='rust-1.51.0;jdk-8,jdk-11,jdk-17'
+    - BASE_IMAGE=debian:bookworm FLAVORS=rust-stable COMBINE='rust-stable;jdk-8,jdk-11,jdk-17'
+    - BASE_IMAGE=debian:bookworm FLAVORS=rust-nightly COMBINE='rust-nightly;jdk-8,jdk-11,jdk-17'
+    - BASE_IMAGE=debian:bookworm FLAVORS=rust-nightly-2021-04-25 COMBINE='rust-nightly-2021-04-25;jdk-8,jdk-11,jdk-17'
+    - BASE_IMAGE=debian:bookworm FLAVORS=jdk-8,jdk-11,jdk-17
 script: ci/script.sh
