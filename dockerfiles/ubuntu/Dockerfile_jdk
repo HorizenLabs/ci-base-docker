@@ -18,7 +18,7 @@ SHELL ["/bin/bash", "-c"]
 RUN set -euxo pipefail \
     && apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends apt-transport-https apt-utils \
-      ca-certificates curl dirmngr git gnupg2 jq pigz wget \
+      ca-certificates curl dirmngr git gnupg2 jq lsb-release pigz wget \
     && if ! command -v gosu &> /dev/null; then \
       dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')" \
       && wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch" \
@@ -45,8 +45,7 @@ RUN set -euxo pipefail \
     && ( gpgconf --kill gpg-agent || true ) \
     && rm -rf "$GNUPGHOME" \
     && unset GNUPGHOME \
-    && echo "deb [signed-by=/usr/share/keyrings/adoptium-archive-keyring.gpg] https://packages.adoptium.net/artifactory/deb $(grep '^deb' /etc/apt/sources.list | head -n1 | \
-      awk '{print $3}') main" > /etc/apt/sources.list.d/adoptium.list \
+    && echo "deb [signed-by=/usr/share/keyrings/adoptium-archive-keyring.gpg] https://packages.adoptium.net/artifactory/deb $(lsb_release -sc | sed 's/bookworm/bullseye/'g) main" > /etc/apt/sources.list.d/adoptium.list \
     && apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends temurin-$JDK_VERSION-jdk \
     && MVN_VERSION="$(curl -sSfL -H "Accept: application/vnd.github+json" https://api.github.com/repos/apache/maven/releases/latest | jq -rc '.tag_name' | cut -d '-' -f 2-)" \
