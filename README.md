@@ -24,14 +24,15 @@ For all of these images versions from the following base images are being built:
 - `ubuntu:bionic`
 - `ubuntu:focal`
 - `ubuntu:jammy`
+- `ubuntu:noble`
 - `debian:buster`
 - `debian:bullseye`
 
 The images are tagged using the followig schema:
 ```
-zencash/sc-ci-base:{bionic,focal,jammy,buster,bullseye}_rust-{1.51.0,stable,nightly,nightly-2021-04-25}_{$(date +%Y%m%d),latest};
-zencash/sc-ci-base:{bionic,focal,jammy,buster,bullseye}_jdk-{8,11,17}_{$(date +%Y%m%d),latest};
-zencash/sc-ci-base:{bionic,focal,jammy,buster,bullseye}_rust-{1.51.0,stable,nightly,nightly-2021-04-25}_jdk-{8,11,17}_{$(date +%Y%m%d),latest};
+zencash/sc-ci-base:{bionic,focal,jammy,noble,buster,bullseye}_rust-{1.51.0,stable,nightly,nightly-2021-04-25}_{$(date +%Y%m%d),latest};
+zencash/sc-ci-base:{bionic,focal,jammy,noble,buster,bullseye}_jdk-{8,11,17}_{$(date +%Y%m%d),latest};
+zencash/sc-ci-base:{bionic,focal,jammy,noble,buster,bullseye}_rust-{1.51.0,stable,nightly,nightly-2021-04-25}_jdk-{8,11,17}_{$(date +%Y%m%d),latest};
 ```
 
 ### Currently available tags (only latest shown)
@@ -150,4 +151,23 @@ zencash/sc-ci-base:jammy_rust-stable_jdk-11_latest
 zencash/sc-ci-base:jammy_rust-stable_jdk-17_latest
 zencash/sc-ci-base:jammy_rust-stable_jdk-8_latest
 zencash/sc-ci-base:jammy_rust-stable_latest
+zencash/sc-ci-base:noble_jdk-11_latest
+zencash/sc-ci-base:noble_jdk-17_latest
+zencash/sc-ci-base:noble_jdk-8_latest
+zencash/sc-ci-base:noble_rust-1.51.0_jdk-11_latest
+zencash/sc-ci-base:noble_rust-1.51.0_jdk-17_latest
+zencash/sc-ci-base:noble_rust-1.51.0_jdk-8_latest
+zencash/sc-ci-base:noble_rust-1.51.0_latest
+zencash/sc-ci-base:noble_rust-nightly-2021-04-25_jdk-11_latest
+zencash/sc-ci-base:noble_rust-nightly-2021-04-25_jdk-17_latest
+zencash/sc-ci-base:noble_rust-nightly-2021-04-25_jdk-8_latest
+zencash/sc-ci-base:noble_rust-nightly-2021-04-25_latest
+zencash/sc-ci-base:noble_rust-nightly_jdk-11_latest
+zencash/sc-ci-base:noble_rust-nightly_jdk-17_latest
+zencash/sc-ci-base:noble_rust-nightly_jdk-8_latest
+zencash/sc-ci-base:noble_rust-nightly_latest
+zencash/sc-ci-base:noble_rust-stable_jdk-11_latest
+zencash/sc-ci-base:noble_rust-stable_jdk-17_latest
+zencash/sc-ci-base:noble_rust-stable_jdk-8_latest
+zencash/sc-ci-base:noble_rust-stable_latest
 ```
