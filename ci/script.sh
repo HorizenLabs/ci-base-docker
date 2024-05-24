@@ -90,7 +90,12 @@ build_images () {
   for image in "${BUILD[@]}"; do
     args=""
     for arg in $(cut -d";" -f1 <<< "$image" | tr "," " "); do
-      args+=" --build-arg $arg"
+      # Processing ARG_RUST_CROSS_TARGETS to support multiple targets
+      if [[ "${arg}" =~ ^ARG_RUST_CROSS_TARGETS=* ]] && grep -q "|" <<< "${arg}"; then
+        args+=" --build-arg ${arg//|/,}"
+      else
+        args+=" --build-arg $arg"
+      fi
     done
     tag="${DOCKER_ORG}/${IMAGE_NAME}:$(cut -d";" -f2 <<< "$image")"
     dockerfile="$(cut -d";" -f3 <<< "$image")"
