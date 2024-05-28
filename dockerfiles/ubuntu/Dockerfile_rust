@@ -31,7 +31,7 @@ RUN set -euxo pipefail \
     && apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends apt-utils \
       build-essential ca-certificates curl dirmngr gcc-mingw-w64-x86-64 git gnupg2 jq \
-      libssl-dev pigz pkg-config protobuf-compiler llvm clang wget  \
+      libssl-dev pigz pkg-config protobuf-compiler llvm clang wget \
     && if ! command -v gosu &> /dev/null; then \
       dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')" \
       && wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch" \
