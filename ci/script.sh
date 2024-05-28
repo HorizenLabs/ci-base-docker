@@ -17,7 +17,8 @@ get_work () {
     if grep -q rust <<< "$flavor"; then
       build_args+="ARG_RUST_TOOLCHAIN=$(cut -d- -f2- <<< "$flavor"),"
       build_args+="ARG_CARGO_AUDIT_VERSION_OLD_RUST=${CARGO_AUDIT_VERSION_OLD_RUST},"
-      build_args+="ARG_RUST_CROSS_TARGETS=${RUST_CROSS_TARGETS};"
+      build_args+="ARG_RUST_CROSS_TARGETS=${RUST_CROSS_TARGETS},"
+      build_args+="ARG_RUST_COMPONENTS=${RUST_COMPONENTS};"
       image_tag="${CODENAME}_${flavor}_latest;"
       dockerfile="./dockerfiles/${DISTRIBUTION}/Dockerfile_rust"
     fi
@@ -51,7 +52,8 @@ get_work () {
               build_args+="FROM_IMAGE=${DOCKER_ORG}/${IMAGE_NAME}:${CODENAME}_${first}_latest,"
               build_args+="ARG_RUST_TOOLCHAIN=$(cut -d- -f2- <<< "$second"),"
               build_args+="ARG_CARGO_AUDIT_VERSION_OLD_RUST=${CARGO_AUDIT_VERSION_OLD_RUST},"
-              build_args+="ARG_RUST_CROSS_TARGETS=${RUST_CROSS_TARGETS};"
+              build_args+="ARG_RUST_CROSS_TARGETS=${RUST_CROSS_TARGETS},"
+              build_args+="ARG_RUST_COMPONENTS=${RUST_COMPONENTS};"
               image_tag="${CODENAME}_${first}_${second}_latest;"
               dockerfile="./dockerfiles/${DISTRIBUTION}/Dockerfile_rust"
             fi
@@ -91,7 +93,7 @@ build_images () {
     args=""
     for arg in $(cut -d";" -f1 <<< "$image" | tr "," " "); do
       # Processing ARG_RUST_CROSS_TARGETS to support multiple targets
-      if [[ "${arg}" =~ ^ARG_RUST_CROSS_TARGETS=* ]] && grep -q "|" <<< "${arg}"; then
+      if [[ "${arg}" =~ ^(ARG_RUST_CROSS_TARGETS|ARG_RUST_COMPONENTS)=.* ]] && grep -q "|" <<< "${arg}"; then
         args+=" --build-arg ${arg//|/,}"
       else
         args+=" --build-arg $arg"
