@@ -10,7 +10,7 @@ env:
     - IMAGE_NAME=sc-ci-base
     - GOSU_VERSION=1.17
     - RUST_CROSS_TARGETS="x86_64-pc-windows-gnu|wasm32-unknown-unknown"
-    - RUST_COMPONENTS="rust-src"
+    - RUST_COMPONENTS="rust-src|llvm-tools-preview"
     - CARGO_AUDIT_VERSION_OLD_RUST=0.16.0
   jobs:
     - BASE_IMAGE=ubuntu:bionic FLAVORS=rust-1.51.0 COMBINE='rust-1.51.0;jdk-8,jdk-11,jdk-17'
