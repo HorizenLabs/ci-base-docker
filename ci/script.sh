@@ -2,6 +2,17 @@
 
 set -euo pipefail
 
+####
+# Functions and checks
+####
+log_green() {
+  echo -e "\n\033[1;32m${1}\033[0m\n"
+}
+
+log_yellow() {
+  echo -e "\n\033[1;33m${1}\033[0m\n"
+}
+
 get_work () {
   # create array of images and build args, each element of format 'build_arg1,build_arg2,...;image_tag;dockerfile'
   local build_args=""
@@ -69,17 +80,18 @@ get_work () {
       done
     done
   fi
+
   # for each element in BUILD add to TAGS where we replace '_latest' with '_$DATE'
-  echo "Images to build:"
+  log_green "Images to build:"
   for element in "${BUILD[@]}"; do
     TAGS+=( "${element//_latest/_$DATE}" )
-    echo "${DOCKER_ORG}/${IMAGE_NAME}:$(cut -d";" -f2 <<< "$element")"
+    log_yellow "${DOCKER_ORG}/${IMAGE_NAME}:$(cut -d";" -f2 <<< "$element")"
   done
-  echo
-  echo "Images to tag:"
+
+  log_green "Images to tag:"
   local i=0
   for i in "${!BUILD[@]}"; do
-    echo "${DOCKER_ORG}/${IMAGE_NAME}:$(cut -d";" -f2 <<< "${BUILD[$i]}") AS ${DOCKER_ORG}/${IMAGE_NAME}:$(cut -d";" -f2 <<< "${TAGS[$i]}")"
+    log_yellow "${DOCKER_ORG}/${IMAGE_NAME}:$(cut -d";" -f2 <<< "${BUILD[$i]}") AS ${DOCKER_ORG}/${IMAGE_NAME}:$(cut -d";" -f2 <<< "${TAGS[$i]}")"
   done
 }
 
@@ -101,7 +113,7 @@ build_images () {
     done
     tag="${DOCKER_ORG}/${IMAGE_NAME}:$(cut -d";" -f2 <<< "$image")"
     dockerfile="$(cut -d";" -f3 <<< "$image")"
-    echo "Running docker build$args -t $tag -f $dockerfile ."
+    log_green "Running docker build$args -t $tag -f $dockerfile ."
     # shellcheck disable=SC2086
     docker build$args -t "$tag" -f "$dockerfile" .
   done
@@ -110,7 +122,7 @@ build_images () {
 tag_images () {
   local i=0
   for i in "${!BUILD[@]}"; do
-    echo "Tagging ${DOCKER_ORG}/${IMAGE_NAME}:$(cut -d";" -f2 <<< "${BUILD[$i]}") AS ${DOCKER_ORG}/${IMAGE_NAME}:$(cut -d";" -f2 <<< "${TAGS[$i]}")"
+    log_green "Tagging ${DOCKER_ORG}/${IMAGE_NAME}:$(cut -d";" -f2 <<< "${BUILD[$i]}") AS ${DOCKER_ORG}/${IMAGE_NAME}:$(cut -d";" -f2 <<< "${TAGS[$i]}")"
     docker tag "${DOCKER_ORG}/${IMAGE_NAME}:$(cut -d";" -f2 <<< "${BUILD[$i]}")" "${DOCKER_ORG}/${IMAGE_NAME}:$(cut -d";" -f2 <<< "${TAGS[$i]}")"
   done
 }
@@ -118,7 +130,7 @@ tag_images () {
 push_images () {
   local image=""
   for image in $(docker image ls --filter=reference="${DOCKER_ORG}/${IMAGE_NAME}" --format "{{.Repository}}:{{.Tag}}"); do
-    echo "Pushing $image to registry"
+    log_green "Pushing $image to registry"
     docker push "$image"
   done
 }
@@ -128,14 +140,24 @@ DISTRIBUTION="$(cut -d: -f1 <<< "$BASE_IMAGE")"
 CODENAME="$(cut -d: -f2 <<< "$BASE_IMAGE")"
 BUILD=()
 TAGS=()
+
+####
+# Main
+####
 get_work
+
 if [ -z "${SKIP_LOGIN:-}" ]; then
-  echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  log_green "Docker login with credentials:"
+  echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
 fi
+
 if [ -z "${SKIP_BUILD:-}" ]; then
   build_images
   tag_images
 fi
-if [ "${TRAVIS_BRANCH:-x}" = "master" ]; then
+
+if [ "${GITHUB_REF_NAME:-x}" = "main" ]; then
   push_images
 fi
+
+exit 0
