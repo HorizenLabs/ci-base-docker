@@ -135,6 +135,7 @@ TAGS=()
 get_work
 
 if [ -z "${SKIP_LOGIN:-}" ]; then
+  echo "Docker login with credentials:"
   echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
 fi
 
