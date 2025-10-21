@@ -9,6 +9,7 @@ ARG ARG_RUST_COMPONENTS
 ARG ARG_CARGO_AUDIT_VERSION_OLD_RUST
 ARG ARG_CARGO_AUDIT_VERSION_NEW_RUST_MIN=1.63.0
 ARG CARGO_HOME=/opt/rust/cargo
+ARG AUTHORS="infrastructure@horizenlabs.io"
 
 ENV GOSU_VERSION=${ARG_GOSU_VERSION:-1.19} \
     RUST_TOOLCHAIN=${ARG_RUST_TOOLCHAIN:-stable} \
@@ -17,7 +18,7 @@ ENV GOSU_VERSION=${ARG_GOSU_VERSION:-1.19} \
     RUSTUP_HOME=/opt/rust/rustup \
     PATH="${PATH}:/opt/rust/cargo/bin"
 
-MAINTAINER infrastructure@horizenlabs.io
+LABEL io.image.authors="${AUTHORS}"
 
 SHELL ["/bin/bash", "-c"]
 

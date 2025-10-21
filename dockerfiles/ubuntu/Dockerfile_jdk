@@ -3,15 +3,15 @@ ARG FROM_IMAGE=ubuntu:24.04
 FROM $FROM_IMAGE
 
 ARG ARG_GOSU_VERSION
-
 ARG ARG_JDK_VERSION
+ARG AUTHORS="infrastructure@horizenlabs.io"
 
 ENV GOSU_VERSION=${ARG_GOSU_VERSION:-1.16} \
     JDK_VERSION=${ARG_JDK_VERSION:-11} \
     PATH="${PATH}:/opt/apache-maven/bin" \
     JAVA_HOME=/usr/lib/jvm/temurin-${ARG_JDK_VERSION:-11}-jdk-amd64
 
-MAINTAINER infrastructure@zensystem.io
+LABEL io.image.authors="${AUTHORS}"
 
 SHELL ["/bin/bash", "-c"]
 
