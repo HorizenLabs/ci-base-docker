@@ -1,0 +1,112 @@
+name: Build
+
+run-name: "Workflow CI/CD: build sc-ci-base image(s)"
+
+on:
+  schedule:
+    - cron: "0 1 * * SUN"  # Runs every Sunday 1:00 UTC
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false # allow other matrix jobs to continue even if one fails
+      matrix:
+        include:
+          ## --- Single-flavor builds ---
+          - base-image: ubuntu:jammy
+            flavor: rust-stable
+            combine: ""
+            display-name: "Ubuntu Jammy + Rust Stable"
+          - base-image: ubuntu:jammy
+            flavor: rust-nightly
+            combine: ""
+            display-name: "Ubuntu Jammy + Rust Nightly"
+          #
+          - base-image: ubuntu:noble
+            flavor: rust-stable
+            combine: ""
+            display-name: "Ubuntu Noble + Rust Stable"
+          - base-image: ubuntu:noble
+            flavor: rust-nightly
+            combine: ""
+            display-name: "Ubuntu Noble + Rust Nightly"
+          #
+          - base-image: debian:bullseye
+            flavor: rust-stable
+            combine: ""
+            display-name: "Debian Bullseye + Rust Stable"
+          - base-image: debian:bullseye
+            flavor: rust-nightly
+            combine: ""
+            display-name: "Debian Bullseye + Rust Nightly"
+          #
+          - base-image: debian:bookworm
+            flavor: rust-stable
+            combine: ""
+            display-name: "Debian Bookworm + Rust Stable"
+          - base-image: debian:bookworm
+            flavor: rust-nightly
+            combine: ""
+            display-name: "Debian Bookworm + Rust Nightly"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Image build
+        env:
+          BASE_IMAGE: ${{ matrix.base-image }}
+          FLAVORS: ${{ matrix.flavor }}
+          COMBINE: ${{ matrix.combine }}
+          IMAGE_NAME: ci-base
+          DOCKER_ORG: horizenlabs
+          GOSU_VERSION: 1.19
+          RUST_CROSS_TARGETS: "x86_64-pc-windows-gnu|wasm32-unknown-unknown"
+          RUST_COMPONENTS: "rust-src|llvm-tools-preview"
+          CARGO_AUDIT_VERSION_OLD_RUST: 0.16.0
+        run: bash ${{ github.workspace }}/ci/script.sh
+
+  # Slack notification if failed on scheduled run
+  failure-notification:
+    runs-on: ubuntu-latest
+    name: Notify if failed
+    needs: [build]
+    if: ${{ failure() && !cancelled() && github.event_name == 'schedule' }}
+    steps:
+      - name: Send Slack notification
+        uses: slackapi/slack-github-action@v1.25.0
+        with:
+          payload: |
+            {
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "🚨 ALERT - ${{ github.workflow }} Job Failed! 🚨"
+                  }
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Job URL:* <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Job>"
+                    }
+                  ]
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_NOTIFY_WEBHOOK }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK

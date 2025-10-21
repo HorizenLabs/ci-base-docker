@@ -128,14 +128,14 @@ DISTRIBUTION="$(cut -d: -f1 <<< "$BASE_IMAGE")"
 CODENAME="$(cut -d: -f2 <<< "$BASE_IMAGE")"
 BUILD=()
 TAGS=()
+
 get_work
-if [ -z "${SKIP_LOGIN:-}" ]; then
-  echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-fi
+
 if [ -z "${SKIP_BUILD:-}" ]; then
   build_images
   tag_images
 fi
-if [ "${TRAVIS_BRANCH:-x}" = "master" ]; then
+
+if [ "${GITHUB_REF_NAME:-x}" = "main" ]; then
   push_images
 fi
