@@ -62,7 +62,7 @@ jobs:
           username: ${{ vars.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
 
-      - name: Run build script
+      - name: Image build
         env:
           BASE_IMAGE: ${{ matrix.base-image }}
           FLAVORS: ${{ matrix.flavor }}
