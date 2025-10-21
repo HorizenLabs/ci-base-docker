@@ -7,6 +7,9 @@ on:
     - cron: "0 1 * * SUN"  # Runs every Sunday 1:00 UTC
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
