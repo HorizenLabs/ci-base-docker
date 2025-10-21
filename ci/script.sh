@@ -129,7 +129,14 @@ CODENAME="$(cut -d: -f2 <<< "$BASE_IMAGE")"
 BUILD=()
 TAGS=()
 
+####
+# Main
+####
 get_work
+
+if [ -z "${SKIP_LOGIN:-}" ]; then
+  echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+fi
 
 if [ -z "${SKIP_BUILD:-}" ]; then
   build_images
@@ -139,3 +146,5 @@ fi
 if [ "${GITHUB_REF_NAME:-x}" = "main" ]; then
   push_images
 fi
+
+exit 0
