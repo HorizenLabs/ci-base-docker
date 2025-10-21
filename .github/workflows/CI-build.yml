@@ -9,13 +9,47 @@ on:
 
 jobs:
   build:
-    name: Build image ${{ matrix.base-image }} with flavor ${{ matrix.flavor }}
     runs-on: ubuntu-latest
+    name: Build image ${{ matrix.base-image }} with flavor ${{ matrix.flavor }}
     strategy:
       matrix:
-        base-image: [ubuntu:jammy, ubuntu:noble, debian:bullseye, debian:bookworm]
-        flavor: [rust-stable, rust-nightly]
-      fail-fast: false
+        include:
+          ## --- Single-flavor builds ---
+          - base-image: ubuntu:jammy
+            flavor: rust-stable
+            combine: ""
+            display-name: "Ubuntu Jammy + Rust Stable"
+          - base-image: ubuntu:jammy
+            flavor: rust-nightly
+            combine: ""
+            display-name: "Ubuntu Jammy + Rust Nightly"
+          #
+          - base-image: ubuntu:noble
+            flavor: rust-stable
+            combine: ""
+            display-name: "Ubuntu Noble + Rust Stable"
+          - base-image: ubuntu:noble
+            flavor: rust-nightly
+            combine: ""
+            display-name: "Ubuntu Noble + Rust Nightly"
+          #
+          - base-image: debian:bullseye
+            flavor: rust-stable
+            combine: ""
+            display-name: "Debian Bullseye + Rust Stable"
+          - base-image: debian:bullseye
+            flavor: rust-nightly
+            combine: ""
+            display-name: "Debian Bullseye + Rust Nightly"
+          #
+          - base-image: debian:bookworm
+            flavor: rust-stable
+            combine: ""
+            display-name: "Debian Bookworm + Rust Stable"
+          - base-image: debian:bookworm
+            flavor: rust-nightly
+            combine: ""
+            display-name: "Debian Bookworm + Rust Nightly"
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -33,6 +67,7 @@ jobs:
         env:
           BASE_IMAGE: ${{ matrix.base-image }}
           FLAVORS: ${{ matrix.flavor }}
+          COMBINE: ${{ matrix.combine }}
           IMAGE_NAME: ci-base
           DOCKER_ORG: horizenlabs
           GOSU_VERSION: 1.19

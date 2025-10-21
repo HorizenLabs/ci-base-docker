@@ -136,6 +136,6 @@ if [ -z "${SKIP_BUILD:-}" ]; then
   tag_images
 fi
 
-if [ "${GITHUB_REF_NAME:-x}" = "master" ]; then
+if [ "${GITHUB_REF_NAME:-x}" = "main" ]; then
   push_images
 fi
