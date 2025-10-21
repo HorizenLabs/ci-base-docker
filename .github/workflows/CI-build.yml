@@ -10,7 +10,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Build image ${{ matrix.base-image }} with flavor ${{ matrix.flavor }}
     strategy:
       matrix:
         include:
