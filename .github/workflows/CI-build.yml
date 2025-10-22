@@ -1,6 +1,6 @@
 name: Build
 
-run-name: "Workflow CI/CD: build sc-ci-base image(s)"
+run-name: "Workflow CI/CD: build ci-base image(s)"
 
 on:
   schedule:
