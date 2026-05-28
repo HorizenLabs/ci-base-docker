@@ -32,17 +32,17 @@ jobs:
             flavor: rust-nightly
             combine: ""
 
-          - base-image: debian:bullseye
+          - base-image: ubuntu:resolute
             flavor: rust-stable
             combine: ""
-          - base-image: debian:bullseye
+          - base-image: ubuntu:resolute
             flavor: rust-nightly
             combine: ""
 
-          - base-image: debian:bookworm
+          - base-image: debian:trixie
             flavor: rust-stable
             combine: ""
-          - base-image: debian:bookworm
+          - base-image: debian:trixie
             flavor: rust-nightly
             combine: ""
     steps:
