@@ -47,7 +47,7 @@ jobs:
             combine: ""
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Docker image build
         env:
@@ -72,8 +72,10 @@ jobs:
     if: ${{ failure() && !cancelled() && github.event_name == 'schedule' }}
     steps:
       - name: Send Slack notification
-        uses: slackapi/slack-github-action@v1.25.0
+        uses: slackapi/slack-github-action@45a88b9581bfab2566dc881e2cd66d334e621e2c # v3.0.3
         with:
+          webhook: ${{ secrets.SLACK_NOTIFY_WEBHOOK }}
+          webhook-type: incoming-webhook
           payload: |
             {
               "blocks": [
@@ -95,6 +97,3 @@ jobs:
                 }
               ]
             }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_NOTIFY_WEBHOOK }}
-          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
