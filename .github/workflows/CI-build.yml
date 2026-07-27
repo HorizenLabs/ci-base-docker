@@ -91,9 +91,24 @@ jobs:
                   "fields": [
                     {
                       "type": "mrkdwn",
-                      "text": "*Job URL:* <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Job>"
+                      "text": "*Project:* `${{ github.repository }}`"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Workflow:* ${{ github.workflow }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Trigger:* ${{ github.event_name }}"
                     }
                   ]
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Job URL:* <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View run #${{ github.run_number }}>"
+                  }
                 }
               ]
             }

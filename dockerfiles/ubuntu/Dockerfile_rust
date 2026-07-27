@@ -66,7 +66,12 @@ RUN set -euxo pipefail \
       && cd && cp -a /root/rustsec/target/release/cargo-audit /opt/rust/cargo/bin/cargo-audit \
       && rm -rf /root/rustsec; \
     else \
-      cargo install cargo-audit \
+      if rustc --version | grep -q nightly; then \
+        rustup toolchain install stable --profile minimal \
+        && cargo +stable install cargo-audit; \
+      else \
+        cargo install cargo-audit; \
+      fi \
       && CARGO_AUDIT_VERSION="$(/opt/rust/cargo/bin/cargo-audit --version | cut -d ' ' -f2)"; \
     fi \
     && apt-get -y clean \
