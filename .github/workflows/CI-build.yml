@@ -83,7 +83,7 @@ jobs:
                   "type": "header",
                   "text": {
                     "type": "plain_text",
-                    "text": "🚨 ALERT - ${{ github.workflow }} Job Failed! 🚨"
+                    "text": "🚨 ALERT - CI Base Images Build Failed! 🚨"
                   }
                 },
                 {
@@ -96,10 +96,6 @@ jobs:
                     {
                       "type": "mrkdwn",
                       "text": "*Workflow:* ${{ github.workflow }}"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Trigger:* ${{ github.event_name }}"
                     }
                   ]
                 },
